@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block content_app %}
+    <div class="container">
+        <h1 class="my-3 text-center">Последние записи блога</h1>
+        <div class="row">
+
+            {% for post in posts_for_page %}
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h3 class="card-title">{{ post.title }}</h3>
+                            <img src="{{ url_for("static", filename="media/img/") }}{{ post.image }}" alt=""
+                                 class="card-img-top">
+                            <p class="card-text">{{ post.description| safe | truncate(1000) }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a href="{{ url_for("blog.post_page_view", post_id=post.id) }}"
+                                       class="btn px-4 py-2 btn-sm btn-outline-secondary">Подробнее</a>
+                                </div>
+                                <small class="text-muted pr-5">{{ post.author }}</small>
+                                <small class="text-muted">{{ post.created_data.date() }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+{% endblock %}

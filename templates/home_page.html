@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content_app %}
+    {% include 'block/slider.html' %}
+    <div class="container-fluid my-5">
+        <div class="container p-5">
+            <div class="row">
+                <div class="col">
+                    <div class="card text-center shadow-sm rounded">
+                        <img src="{{ url_for("static", filename="img/weather.png") }}" alt="" class="card-img-top">
+                        <div class="card-body">
+                            <h4 class="card-title">Сайт погодной информации</h4>
+                            <div class="card-text mb-2">
+                                Проект на Django. <br>
+                                В нем можно узнать погоду в любом городе мира и посмотреть погоду в популярных городах.
+                            </div>
+                            <a href="https://github.com/NiatpacBlack/Django_Weather" class="btn text-white"
+                               style="background-color: #7316a8">Перейти к проекту</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card text-center shadow-sm rounded">
+                        <img src="{{ url_for("static", filename="img/room_with_bed.jpg") }}" alt=""
+                             class="card-img-top">
+                        <div class="card-body">
+                            <h4 class="card-title">Веб квест "Побег из бункера"</h4>
+                            <div class="card-text mb-2">
+                                Проект на Flask + Flask-wtf. <br>
+                                В формате визуальной новеллы. Попробуйте выбраться из заброшенного бункера.
+                            </div>
+                            <a href="https://github.com/NiatpacBlack/Flask_Escape_from_Dungeons" class="btn text-white"
+                               style="background-color: #7316a8">Перейти к проекту</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card text-center shadow-sm rounded">
+                        <img src="{{ url_for("static", filename="img/earth.jpg") }}" alt="" class="card-img-top">
+                        <div class="card-body">
+                            <h4 class="card-title">Веб проект "Игра жизнь"</h4>
+                            <div class="card-text mb-2">
+                                Учебный проект курса по Flask. Игра "Жизнь". <br>
+                                Проект написан на основе клеточного автомата. Понаблюдайте за развитием и угасанием
+                                жизни.
+                            </div>
+                            <a href="https://github.com/NiatpacBlack/Flask_Life_Emulation" class="btn text-white"
+                               style="background-color: #7316a8">Перейти к проекту</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

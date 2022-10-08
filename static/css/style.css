@@ -1,0 +1,29 @@
+* {
+    font-family: 'Source Sans Pro', sans-serif;
+}
+/*убираем подчеркивания всех ссылок*/
+a {
+    text-decoration: none;
+}
+
+/*дополнение к бутстраповской карусели на главной странице*/
+.home-slider {
+    padding: 0;
+}
+
+.home-slider h5 {
+    font-size: 60px;
+}
+
+.home-slider p{
+    font-size: 30px;
+}
+
+.carousel-caption {
+    text-align: center;
+}
+
+.carousel-item {
+    height: 30vh;
+}
+
