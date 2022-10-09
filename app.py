@@ -40,11 +40,6 @@ def home_view():
     return render_template('home_page.html')
 
 
-@app.route('/media/<filename>')
-def get_file(filename):
-    return send_from_directory(app.config['UPLOADED_PHOTOS_DEST'], filename)
-
-
 @app.errorhandler(404)
 def page_not_found_view(error_text):
     """При получении ошибки 404 отобразит кастомный шаблон с информацией об ошибке. В консоль вернет 404 ошибку."""
