@@ -17,9 +17,11 @@ def create_app():
     from admin.admin import admin
     from blog.blog import blog
     from feedback.feedback import feedback
+    from authentication.authentication import authentication
     app.register_blueprint(admin, url_prefix='/admin')
     app.register_blueprint(feedback, url_prefix='/feedback')
     app.register_blueprint(blog, url_prefix='/blog')
+    app.register_blueprint(authentication, url_prefix='/authentication')
 
     configure_uploads(app, photos)
 

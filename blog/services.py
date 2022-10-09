@@ -21,7 +21,15 @@ def get_all_posts_from_post_model():
     return PostModel.query.all()[::-1]
 
 
+def get_five_last_posts_from_posts_table(post_id: int):
+    """Возвращает QuerySet пяти последних постов из таблицы PostModel без открытого поста с post_id."""
+
+    return PostModel.query.filter(PostModel.id != post_id).limit(5)[::-1]
+
+
 def get_post_from_post_model_where_id(post_id: int):
     """Возвращает QuerySet и информацией о посте из блога с id равным аргументу."""
 
-    return PostModel.query.filter(id=post_id)
+    return PostModel.query.get(post_id)
+
+

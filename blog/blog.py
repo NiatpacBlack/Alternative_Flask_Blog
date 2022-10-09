@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, request, url_for, redirect, flash
 
 from blog.forms import CreatePostForm, photos
-from blog.services import add_post_in_post_model, get_all_posts_from_post_model, get_post_from_post_model_where_id
+from blog.services import add_post_in_post_model, get_all_posts_from_post_model, get_post_from_post_model_where_id, \
+    get_five_last_posts_from_posts_table
 
 blog = Blueprint('blog', __name__)
 
@@ -41,9 +42,19 @@ def create_post_view():
     )
 
 
-@blog.route('/create_post/post-<int:post_id>')
+@blog.route('/post-<int:post_id>')
 def post_page_view(post_id):
-    """Страница отображающая полную информацию из определенной статьи блога."""
+    """
+    Страница отображающая полную информацию из определенной статьи блога.
 
+    Дополнительно на странице отображаются пять последних постов из таблицы PostModel без текущего поста.
+    """
+
+    five_last_posts = get_five_last_posts_from_posts_table(post_id)
     post = get_post_from_post_model_where_id(post_id)
-    return render_template('blog/post_page.html', title=post.title, post=post)
+    return render_template(
+        'blog/post_page.html',
+        title=post.title,
+        post=post,
+        five_last_posts=five_last_posts,
+    )

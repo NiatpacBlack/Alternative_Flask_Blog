@@ -1,0 +1,15 @@
+<div class="col-md-4">
+    <div class="card my-4">
+        <h5 class="card-header">Последние статьи</h5>
+        {% for last_post in five_last_posts %}
+            <div class="card-body">
+                <h5 class="card-title">{{ last_post.title }}</h5>
+                <img src="{{ url_for("static", filename="media/img/") }}{{ last_post.image }}" alt=""
+                     class="card-img-top my-2"><br>
+                <p>{{ last_post.description| safe | truncate(250) }}</p><br>
+                <a href="{{ url_for('blog.post_page_view', post_id=last_post.id) }}" class="card-link">Подробнее</a>
+                <hr>
+            </div>
+        {% endfor %}
+    </div>
+</div>
