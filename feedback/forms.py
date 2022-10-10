@@ -4,47 +4,49 @@ from wtforms.validators import DataRequired, Length, Email
 
 
 class FeedbackForm(FlaskForm):
+    """Форма обратной связи с администратором сайта."""
+
     name = StringField(
-        'Name',
+        "Name",
         validators=[
             DataRequired(),
             Length(max=255),
         ],
         render_kw={
-            'class': 'form-control',
+            "class": "form-control",
             "placeholder": "Ваше имя",
         },
     )
     email = StringField(
-        'Email',
+        "Email",
         validators=[
-            Email(message='Введенный email некорректен'),
+            Email(message="Введенный email некорректен"),
             DataRequired(),
             Length(max=255),
         ],
         render_kw={
-            'class': 'form-control',
+            "class": "form-control",
             "placeholder": "Ваш email",
         },
     )
 
     description = PasswordField(
-        'Description',
+        "Description",
         validators=[DataRequired(), Length(max=255)],
         render_kw={
-            'class': 'form-control help',
+            "class": "form-control help",
             "placeholder": "Описание",
         },
     )
     content = TextAreaField(
-        'Content',
+        "Content",
         validators=[DataRequired()],
         render_kw={
-            'class': 'form-control help',
+            "class": "form-control help",
             "placeholder": "Текст сообщения",
         },
     )
     submit = SubmitField(
         "Отправить",
-        render_kw={'class': 'btn btn-info'},
+        render_kw={"class": "btn btn-info"},
     )

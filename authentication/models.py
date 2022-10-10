@@ -20,4 +20,4 @@ class UserModel(db.Model):
     def __repr__(self):
         """При помощи этого метода мы будем получать соответствующую запись из базы данных."""
 
-        return f'<UserModel {self.id}>'
+        return f"<UserModel {self.id}>"

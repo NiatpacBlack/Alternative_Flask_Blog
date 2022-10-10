@@ -19,22 +19,28 @@ def add_new_user_in_user_table(username: str, email: str, hash_password: str) ->
     db.session.commit()
 
 
-def validate_user_in_user_table(message='Пользователь с таким именем уже существует'):
+def validate_user_in_user_table(message="Пользователь с таким именем уже существует"):
     """Проверяет есть ли переданные имя пользователя в таблице пользователей UserTable."""
 
     def _validate_user_in_user_table(form, username):
-        username_in_table = db.session.query(UserModel).filter(UserModel.username == f'{username.data}').all()
+        username_in_table = (
+            db.session.query(UserModel)
+            .filter(UserModel.username == f"{username.data}")
+            .all()
+        )
         if username_in_table:
             raise ValidationError(message)
 
     return _validate_user_in_user_table
 
 
-def validate_email_in_user_table(message='Пользователь с таким email уже существует'):
+def validate_email_in_user_table(message="Пользователь с таким email уже существует"):
     """Проверяет есть ли переданные имя пользователя в таблице пользователей UserTable."""
 
     def _validate_email_in_user_table(form, email):
-        email_in_table = db.session.query(UserModel).filter(UserModel.email == f'{email.data}').all()
+        email_in_table = (
+            db.session.query(UserModel).filter(UserModel.email == f"{email.data}").all()
+        )
         if email_in_table:
             raise ValidationError(message)
 

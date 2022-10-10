@@ -2,55 +2,58 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 
-from authentication.services import validate_user_in_user_table, validate_email_in_user_table
+from authentication.services import (
+    validate_user_in_user_table,
+    validate_email_in_user_table,
+)
 
 
 class SignUpForm(FlaskForm):
+    """Форма регистрации нового пользователя."""
+
     username = StringField(
-        'Имя пользователя',
+        "Имя пользователя",
         validators=[
             DataRequired(),
             Length(max=255),
             validate_user_in_user_table(),
         ],
         render_kw={
-            'class': 'form-control',
+            "class": "form-control",
             "placeholder": "Имя пользователя",
         },
     )
     email = StringField(
-        'Email',
+        "Email",
         validators=[
-            Email(message='Введенный email некорректен'),
+            Email(message="Введенный email некорректен"),
             DataRequired(),
             Length(max=255),
             validate_email_in_user_table(),
         ],
         render_kw={
-            'class': 'form-control',
+            "class": "form-control",
             "placeholder": "Email",
         },
     )
 
     password = PasswordField(
-        'Пароль',
+        "Пароль",
         validators=[DataRequired(), Length(max=255)],
         render_kw={
-            'class': 'form-control help',
+            "class": "form-control help",
             "placeholder": "Пароль",
         },
     )
     repeat_password = PasswordField(
-        'Повтор пароля',
-        validators=[DataRequired(), EqualTo('password', message='Пароли не совпадают')],
+        "Повтор пароля",
+        validators=[DataRequired(), EqualTo("password", message="Пароли не совпадают")],
         render_kw={
-            'class': 'form-control help',
+            "class": "form-control help",
             "placeholder": "Повтор пароля",
         },
     )
     submit = SubmitField(
         "Зарегистрироваться",
-        render_kw={'class': 'btn btn-success'},
+        render_kw={"class": "btn btn-success"},
     )
-
-

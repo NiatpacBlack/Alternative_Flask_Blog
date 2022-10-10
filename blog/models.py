@@ -23,4 +23,4 @@ class PostModel(db.Model):
     def __repr__(self):
         """При помощи этого метода мы будем получать соответствующую запись из базы данных."""
 
-        return f'<PostModel {self.id}>'
+        return f"<PostModel {self.id}>"
