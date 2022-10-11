@@ -19,8 +19,14 @@ def add_new_user_in_user_table(username: str, email: str, hash_password: str) ->
     db.session.commit()
 
 
+def check_user_in_user_table(username: str):
+    """Возвращает запись о пользователе, есть ли пользователь с именем username есть в таблице UserModel."""
+
+    return UserModel.query.filter_by(username=username).first()
+
+
 def validate_user_in_user_table(message="Пользователь с таким именем уже существует"):
-    """Проверяет есть ли переданные имя пользователя в таблице пользователей UserTable."""
+    """Проверяет, есть ли переданные имя пользователя в таблице пользователей UserTable."""
 
     def _validate_user_in_user_table(form, username):
         username_in_table = (

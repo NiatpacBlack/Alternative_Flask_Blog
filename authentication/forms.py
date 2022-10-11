@@ -57,3 +57,30 @@ class SignUpForm(FlaskForm):
         "Зарегистрироваться",
         render_kw={"class": "btn btn-success"},
     )
+
+
+class SignInForm(FlaskForm):
+    """Форма авторизации пользователя."""
+
+    username = StringField(
+        "Имя пользователя",
+        validators=[
+            DataRequired(),
+        ],
+        render_kw={
+            "class": "form-control",
+            "placeholder": "Имя пользователя",
+        },
+    )
+    password = PasswordField(
+        "Пароль",
+        validators=[DataRequired()],
+        render_kw={
+            "class": "form-control help",
+            "placeholder": "Пароль",
+        },
+    )
+    submit = SubmitField(
+        "Вход",
+        render_kw={"class": "btn btn-info"},
+    )

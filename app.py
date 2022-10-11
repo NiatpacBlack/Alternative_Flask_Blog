@@ -1,11 +1,13 @@
 from flask import Flask, render_template, send_from_directory, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_uploads import configure_uploads
+from flask_login import LoginManager
 
 from blog.forms import photos
 from config import Config
 
 db = SQLAlchemy()
+login_manager = LoginManager()
 
 
 def create_app():
@@ -27,6 +29,7 @@ def create_app():
     configure_uploads(app, photos)
 
     db.init_app(app)
+    login_manager.init_app(app)
 
     return app
 

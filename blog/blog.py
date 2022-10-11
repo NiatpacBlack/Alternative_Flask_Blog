@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, url_for, redirect, flash
+from flask_login import login_required
 
 from blog.forms import CreatePostForm, photos
 from blog.services import (
@@ -23,6 +24,7 @@ def blog_view():
 
 
 @blog.route("/create_post", methods=["GET", "POST"])
+@login_required
 def create_post_view():
     """Отображение страницы с формой создания поста."""
 

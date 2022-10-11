@@ -6,7 +6,7 @@
 {#        </div>#}
 {#    {% else %}#}
         <h6 class="card-header">
-            <a href="#">Авторизуйтесь</a> или <a href="#">Зарегистрируйтесь</a>
+            <a href="{{ url_for('authentication.sign_in_view') }}">Авторизуйтесь</a> или <a href="{{ url_for('authentication.sign_up_view') }}">Зарегистрируйтесь</a>
             чтобы оставить комментарий
         </h6>
 {#    {% endif %}#}
