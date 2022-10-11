@@ -82,5 +82,5 @@ class SignInForm(FlaskForm):
     )
     submit = SubmitField(
         "Вход",
-        render_kw={"class": "btn btn-info"},
+        render_kw={"class": "btn btn-info btn-lg"},
     )

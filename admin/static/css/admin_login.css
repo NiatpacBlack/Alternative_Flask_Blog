@@ -1,6 +1,6 @@
 /* Background */
 body {
-    background: url("../img/admin-loggin-bg.jpg");
+    background: url("../img/admin-loggin-bg.jpg") no-repeat center center fixed;
     background-size: cover;
     display: flex;
     justify-content: center;

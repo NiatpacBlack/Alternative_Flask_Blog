@@ -8,7 +8,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 authentication = Blueprint("authentication", __name__)
 
 
-@authentication.route("/sign_in")
+@authentication.route("/sign_in", methods=["POST", "GET"])
 def sign_in_view():
     """Представление страницы авторизации пользователя."""
 
@@ -52,7 +52,10 @@ def sign_up_view():
             email=request.form.get("email"),
             hash_password=generate_password_hash(request.form.get("password")),
         )
-        return redirect(url_for("home_view"))
+        user = check_user_in_user_table(username=request.form.get("username"))
+        if user:
+            login_user(user)
+            return redirect(url_for("home_view"))
 
     return render_template(
         "authentication/registration_page.html",
@@ -61,15 +64,4 @@ def sign_up_view():
     )
 
 
-@authentication.after_request
-def redirect_to_signin(response):
-    """
-    Перенаправляет на страницу авторизации и сохраняет в аргумент next и url страницы, на которую заходили.
 
-    В случае если не авторизированный пользователь заходит на страницу, требующую авторизации.
-    """
-    print(response.status_code)
-    if response.status_code == '401':
-        return redirect(url_for('sign_in_view') + '?next=' + request.url)
-
-    return response

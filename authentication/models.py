@@ -33,4 +33,4 @@ def load_user(user_model_id: str):
     Он должен принимать str идентификатор пользователя и возвращать соответствующий объект пользователя.
     """
 
-    return UserModel.get(user_model_id)
+    return UserModel.query.get(user_model_id)
