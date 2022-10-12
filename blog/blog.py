@@ -1,12 +1,12 @@
 from flask import Blueprint, render_template, request, url_for, redirect, flash
-from flask_login import login_required
+from flask_login import login_required, current_user
 
-from blog.forms import CreatePostForm, photos
+from blog.forms import CreatePostForm, photos, CreateCommentForm
 from blog.services import (
     add_post_in_post_model,
     get_all_posts_from_post_model,
     get_post_from_post_model_where_id,
-    get_five_last_posts_from_posts_table,
+    get_five_last_posts_from_posts_table, add_comment_in_comments_table, get_comments_from_comments_table_where_post_id,
 )
 
 blog = Blueprint("blog", __name__)
@@ -48,7 +48,7 @@ def create_post_view():
     )
 
 
-@blog.route("/post-<int:post_id>")
+@blog.route("/post-<int:post_id>", methods=["GET", "POST"])
 def post_page_view(post_id):
     """
     Страница отображающая полную информацию из определенной статьи блога.
@@ -56,11 +56,20 @@ def post_page_view(post_id):
     Дополнительно на странице отображаются пять последних постов из таблицы PostModel без текущего поста.
     """
 
-    five_last_posts = get_five_last_posts_from_posts_table(post_id)
-    post = get_post_from_post_model_where_id(post_id)
+    comment_form = CreateCommentForm()
+
+    if request.method == "POST" and comment_form.validate_on_submit():
+        comment = {
+            "post_id": post_id,
+            "user_id": current_user.id,
+            "text": request.form.get('text'),
+        }
+        add_comment_in_comments_table(comment)
+
     return render_template(
         "blog/post_page.html",
-        title=post.title,
-        post=post,
-        five_last_posts=five_last_posts,
+        post=get_post_from_post_model_where_id(post_id),
+        five_last_posts=get_five_last_posts_from_posts_table(post_id),
+        comment_form=comment_form,
+        all_comments=get_comments_from_comments_table_where_post_id(post_id),
     )

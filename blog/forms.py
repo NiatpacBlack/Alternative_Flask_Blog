@@ -48,3 +48,20 @@ class CreatePostForm(FlaskForm):
         "Создать",
         render_kw={"class": "btn my-3 btn-primary btn-block"},
     )
+
+
+class CreateCommentForm(FlaskForm):
+    """Форма создания нового комментария."""
+
+    text = TextAreaField(
+        "Текст комментария",
+        validators=[DataRequired()],
+        render_kw={
+            "class": "form-control",
+            "placeholder": "",
+        },
+    )
+    submit = SubmitField(
+        "Оставить комментарий",
+        render_kw={"class": "btn my-3 btn-primary btn-block"},
+    )

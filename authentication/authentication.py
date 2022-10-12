@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, url_for, redirect, flash
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, login_required
 
 from authentication.forms import SignUpForm, SignInForm
 from authentication.services import add_new_user_in_user_table, check_user_in_user_table
@@ -21,8 +21,7 @@ def sign_in_view():
 
         if user and check_password_hash(user.password, password):
             login_user(user)
-            next_page = request.args.get('next')
-            return redirect(next_page or url_for('home_view'))
+            return _redirect_to_home_or_next_page()
         else:
             flash('Пользователь или пароль не существуют, повторите попытку.', 'danger')
 
@@ -34,6 +33,7 @@ def sign_in_view():
 
 
 @authentication.route("/sign_out")
+@login_required
 def sign_out_view():
     """Осуществляет выход пользователя из своего профиля."""
 
@@ -55,13 +55,20 @@ def sign_up_view():
         user = check_user_in_user_table(username=request.form.get("username"))
         if user:
             login_user(user)
-            return redirect(url_for("home_view"))
+            return _redirect_to_home_or_next_page()
 
     return render_template(
         "authentication/registration_page.html",
         form=form,
         title="Регистрация",
     )
+
+
+def _redirect_to_home_or_next_page():
+    """Перенаправит на страницу, переданную в аргументе next_page, либо на главную страницу."""
+
+    next_page = request.args.get('next_page')
+    return redirect(next_page or url_for('home_view'))
 
 
 

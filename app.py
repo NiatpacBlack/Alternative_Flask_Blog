@@ -58,10 +58,10 @@ def redirect_to_signin(response):
 
     В случае если не авторизированный пользователь заходит на страницу, требующую авторизации.
     """
-    print(response.status_code)
+
     if response.status_code == 401:
         flash('Пожалуйста войдите в свой аккаунт или зарегистрируйтесь, чтобы попасть в данный раздел.', 'success')
-        return redirect(url_for('authentication.sign_in_view') + '?next=' + request.url)
+        return redirect(url_for('authentication.sign_in_view', next_page=request.url))
 
     return response
 

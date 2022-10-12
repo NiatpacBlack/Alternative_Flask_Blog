@@ -1,5 +1,7 @@
 import os
 
+from pytz import timezone
+
 # Переменная в которую помещается исполняемая директория скрипта
 _basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -15,6 +17,9 @@ class Config(object):
 
     # Папка для загруженных файлов
     UPLOADED_PHOTOS_DEST = os.path.join(_basedir, "static/media/img")
+
+    # Временная зона
+    TIMEZONE = timezone('Europe/Minsk')
 
     # Содержит адрес электронной почты администраторов для рассылок из приложения
     ADMINS = frozenset(["youremail@yourdomain.com"])

@@ -1,4 +1,5 @@
-from .models import PostModel, db
+from authentication.models import UserModel
+from .models import PostModel, db, CommentModel
 
 
 def add_post_in_post_model(post: dict[str]) -> None:
@@ -31,3 +32,29 @@ def get_post_from_post_model_where_id(post_id: int):
     """Возвращает QuerySet и информацией о посте из блога с id равным аргументу."""
 
     return PostModel.query.get(post_id)
+
+
+def add_comment_in_comments_table(comment: dict[str]) -> None:
+    """Добавляет данные из словаря comment в таблицу CommentModel."""
+
+    db_object = CommentModel(
+        post_id=comment["post_id"],
+        user_id=comment["user_id"],
+        text=comment["text"],
+    )
+    db.session.add(db_object)
+    db.session.commit()
+
+
+def get_comments_from_comments_table_where_post_id(post_id: int):
+    """
+    Возвращает QuerySet из всех комментариев под постом с id post_id в обратном порядке.
+
+    В данной функции реализуется объединение таблицы всех комментариев к посту с таблицей пользователей, чтобы
+    выводить их username над комментарием в шаблоне.
+    """
+
+    return db.session.query(UserModel, CommentModel).join(CommentModel, UserModel.id == CommentModel.user_id).filter_by(
+        post_id=post_id
+    )[::-1]
+

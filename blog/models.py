@@ -1,10 +1,12 @@
 from datetime import datetime
 
+from pytz import timezone
+
 from app import db
 
 
 class PostModel(db.Model):
-    """Модель поста. Из подобных постов будет состоять блог."""
+    """Таблица, описывающая поля поста. Из подобных постов будет состоять блог."""
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
@@ -12,7 +14,7 @@ class PostModel(db.Model):
     description = db.Column(db.String(255), nullable=False)
     text = db.Column(db.Text, nullable=False)
     author = db.Column(db.String(100), nullable=False)
-    created_data = db.Column(db.DateTime, default=datetime.utcnow)
+    created_data = db.Column(db.DateTime, default=datetime.now(timezone('Europe/Minsk')))
 
     def __int__(self, title, description, text, author):
         self.title = title
@@ -21,6 +23,17 @@ class PostModel(db.Model):
         self.author = author
 
     def __repr__(self):
-        """При помощи этого метода мы будем получать соответствующую запись из базы данных."""
-
         return f"<PostModel {self.id}>"
+
+
+class CommentModel(db.Model):
+    """Таблица, хранящая данные о комментариях под конкретным постом блога."""
+
+    id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('post_model.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user_model.id'))
+    text = db.Column(db.Text, nullable=False)
+    created_data = db.Column(db.DateTime, default=datetime.now(timezone('Europe/Minsk')))
+
+    def __repr__(self):
+        return f"<CommentModel {self.id}>"
