@@ -8,20 +8,27 @@ from blog.services import (
     get_all_posts_from_post_model,
     get_post_from_post_model_where_id,
     get_five_last_posts_from_posts_table, add_comment_in_comments_table, get_comments_from_comments_table_where_post_id,
+    get_all_posts_from_post_model_on_page,
 )
 
 blog = Blueprint("blog", __name__)
 
 
-@blog.route("/")
+@blog.route("/", methods=["GET", "POST"])
 @logger.catch
 def blog_view():
     """Отображение страницы блога со всеми статьями."""
 
+    page = request.args.get('page')
+    if page and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+
     return render_template(
         "blog/blog_page.html",
         title="Блог",
-        posts_for_page=get_all_posts_from_post_model(),
+        posts_for_page=get_all_posts_from_post_model_on_page(page=page),
     )
 
 

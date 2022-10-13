@@ -7,7 +7,7 @@
         <h1 class="my-3 text-center">Последние записи блога</h1>
         <div class="row">
             {% if posts_for_page %}
-                {% for post in posts_for_page %}
+                {% for post in posts_for_page.items %}
                     <div class="col-md-1"></div>
                     <div class="col-md-10">
                         <div class="card mb-4 shadow-sm">
@@ -33,6 +33,34 @@
                 <h2 class="container my-5 text-center">Увы, статей нет :(</h2>
             {% endif %}
         </div>
+        <nav aria-label="Paginate me">
+            <ul class="pagination justify-content-center">
+                {% if posts_for_page.has_prev %}
+                    <a class="page-link" href="?page={{ posts_for_page.prev_num }}"
+                       tabindex="-1">Предыдущая</a>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Предыдущая</a>
+                    </li>
+                {% endif %}
+                {% for page_number in range(1, (posts_for_page.pages + 1)) %}
+                    {% if page_number == posts_for_page.page %}
+                        <li class="page-item active"><a class="page-link"
+                                                        href="?page={{ page_number }}">{{ page_number }}</a></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                {% if posts_for_page.has_next %}
+                    <a class="page-link" href="?page={{ posts_for_page.next_num }}">Следующая</a>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">Следующая</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
     </div>
 
 

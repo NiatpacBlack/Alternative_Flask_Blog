@@ -20,10 +20,10 @@ def add_post_in_post_model(post: dict[str]) -> None:
 
 
 @logger.catch
-def get_all_posts_from_post_model():
-    """Возвращает QuerySet и информацией о всех постах из таблицы PostModel."""
+def get_all_posts_from_post_model_on_page(page: int):
+    """Возвращает QuerySet и информацией о постах из таблицы PostModel которые соответствуют текущей странице page."""
 
-    return PostModel.query.all()[::-1]
+    return PostModel.query.order_by(PostModel.id.desc()).paginate(page=page, per_page=5)
 
 
 @logger.catch
