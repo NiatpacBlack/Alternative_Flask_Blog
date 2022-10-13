@@ -1,7 +1,10 @@
+from loguru import logger
+
 from authentication.models import UserModel
 from .models import PostModel, db, CommentModel
 
 
+@logger.catch
 def add_post_in_post_model(post: dict[str]) -> None:
     """Добавляет данные из словаря post в таблицу PostModel."""
 
@@ -16,24 +19,28 @@ def add_post_in_post_model(post: dict[str]) -> None:
     db.session.commit()
 
 
+@logger.catch
 def get_all_posts_from_post_model():
     """Возвращает QuerySet и информацией о всех постах из таблицы PostModel."""
 
     return PostModel.query.all()[::-1]
 
 
+@logger.catch
 def get_five_last_posts_from_posts_table(post_id: int):
     """Возвращает QuerySet пяти последних постов из таблицы PostModel без открытого поста с post_id."""
 
     return PostModel.query.filter(PostModel.id != post_id).limit(5)[::-1]
 
 
+@logger.catch
 def get_post_from_post_model_where_id(post_id: int):
     """Возвращает QuerySet и информацией о посте из блога с id равным аргументу."""
 
     return PostModel.query.get(post_id)
 
 
+@logger.catch
 def add_comment_in_comments_table(comment: dict[str]) -> None:
     """Добавляет данные из словаря comment в таблицу CommentModel."""
 
@@ -46,6 +53,7 @@ def add_comment_in_comments_table(comment: dict[str]) -> None:
     db.session.commit()
 
 
+@logger.catch
 def get_comments_from_comments_table_where_post_id(post_id: int):
     """
     Возвращает QuerySet из всех комментариев под постом с id post_id в обратном порядке.
@@ -57,4 +65,3 @@ def get_comments_from_comments_table_where_post_id(post_id: int):
     return db.session.query(UserModel, CommentModel).join(CommentModel, UserModel.id == CommentModel.user_id).filter_by(
         post_id=post_id
     )[::-1]
-

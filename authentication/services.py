@@ -1,8 +1,10 @@
+from loguru import logger
 from wtforms import ValidationError
 
 from .models import UserModel, db
 
 
+@logger.catch
 def add_new_user_in_user_table(username: str, email: str, hash_password: str) -> None:
     """
     Добавляет нового пользователя в таблицу UserModel.
@@ -19,12 +21,14 @@ def add_new_user_in_user_table(username: str, email: str, hash_password: str) ->
     db.session.commit()
 
 
+@logger.catch
 def check_user_in_user_table(username: str):
     """Возвращает запись о пользователе, есть ли пользователь с именем username есть в таблице UserModel."""
 
     return UserModel.query.filter_by(username=username).first()
 
 
+@logger.catch
 def validate_user_in_user_table(message="Пользователь с таким именем уже существует"):
     """Проверяет, есть ли переданные имя пользователя в таблице пользователей UserTable."""
 
@@ -40,6 +44,7 @@ def validate_user_in_user_table(message="Пользователь с таким 
     return _validate_user_in_user_table
 
 
+@logger.catch
 def validate_email_in_user_table(message="Пользователь с таким email уже существует"):
     """Проверяет есть ли переданные имя пользователя в таблице пользователей UserTable."""
 

@@ -30,7 +30,7 @@ class FeedbackForm(FlaskForm):
         },
     )
 
-    description = PasswordField(
+    description = StringField(
         "Description",
         validators=[DataRequired(), Length(max=255)],
         render_kw={

@@ -6,7 +6,7 @@ from feedback.forms import FeedbackForm
 feedback = Blueprint("feedback", __name__)
 
 
-@feedback.route("/")
+@feedback.route("/", methods=["POST", "GET"])
 @login_required
 def feedback_view():
     """Отображение страницы с формой обратной связи."""

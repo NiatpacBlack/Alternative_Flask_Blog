@@ -13,7 +13,7 @@ class PostModel(db.Model):
     image = db.Column(db.String(255), nullable=True)
     description = db.Column(db.String(255), nullable=False)
     text = db.Column(db.Text, nullable=False)
-    author = db.Column(db.String(100), nullable=False)
+    author = db.Column(db.Integer, db.ForeignKey('user_model.id'))
     created_data = db.Column(db.DateTime, default=datetime.now(timezone('Europe/Minsk')))
 
     def __int__(self, title, description, text, author):

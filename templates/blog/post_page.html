@@ -16,7 +16,7 @@
                 <hr>
                 <p class="lead">{{ post.text|safe }}</p>
                 <hr>
-                <p class="lead text-right">Автор:<a href="#">{{ post.author }}</a></p>
+                <p class="lead text-right">Автор:<a href="#">{{ post.post_author.username }}</a></p>
                 <hr>
                 <div class="text-right">Опубликовано {{ post.created_data.date() }}</div>
                 <hr>

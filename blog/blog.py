@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, request, url_for, redirect, flash
+from flask import Blueprint, render_template, request, url_for, redirect
 from flask_login import login_required, current_user
+from loguru import logger
 
 from blog.forms import CreatePostForm, photos, CreateCommentForm
 from blog.services import (
@@ -13,6 +14,7 @@ blog = Blueprint("blog", __name__)
 
 
 @blog.route("/")
+@logger.catch
 def blog_view():
     """Отображение страницы блога со всеми статьями."""
 
@@ -25,6 +27,7 @@ def blog_view():
 
 @blog.route("/create_post", methods=["GET", "POST"])
 @login_required
+@logger.catch
 def create_post_view():
     """Отображение страницы с формой создания поста."""
 
@@ -36,7 +39,7 @@ def create_post_view():
             "image": photos.save(form.image.data),
             "description": request.form["description"],
             "text": request.form["text"],
-            "author": "Unknown",
+            "author": current_user.id,
         }
         add_post_in_post_model(post)
         return redirect(url_for("blog.blog_view"))
@@ -49,6 +52,7 @@ def create_post_view():
 
 
 @blog.route("/post-<int:post_id>", methods=["GET", "POST"])
+@logger.catch
 def post_page_view(post_id):
     """
     Страница отображающая полную информацию из определенной статьи блога.
