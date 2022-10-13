@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, url_for, redirect
+from flask import Blueprint, render_template, request, url_for, redirect, abort
 from flask_login import login_required, current_user
 from loguru import logger
 
@@ -52,7 +52,6 @@ def create_post_view():
 
 
 @blog.route("/post-<int:post_id>", methods=["GET", "POST"])
-@logger.catch
 def post_page_view(post_id):
     """
     Страница отображающая полную информацию из определенной статьи блога.
@@ -62,6 +61,9 @@ def post_page_view(post_id):
 
     comment_form = CreateCommentForm()
 
+    if not get_post_from_post_model_where_id(post_id):
+        abort(404)
+
     if request.method == "POST" and comment_form.validate_on_submit():
         comment = {
             "post_id": post_id,
@@ -69,7 +71,6 @@ def post_page_view(post_id):
             "text": request.form.get('text'),
         }
         add_comment_in_comments_table(comment)
-
     return render_template(
         "blog/post_page.html",
         post=get_post_from_post_model_where_id(post_id),
