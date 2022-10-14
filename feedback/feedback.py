@@ -8,8 +8,8 @@ feedback = Blueprint("feedback", __name__)
 
 
 @feedback.route("/", methods=["POST", "GET"])
-@logger.catch
 @login_required
+@logger.catch
 def feedback_view():
     """Отображение страницы с формой обратной связи."""
 
