@@ -5,7 +5,6 @@ from loguru import logger
 from blog.forms import CreatePostForm, photos, CreateCommentForm
 from blog.services import (
     add_post_in_post_model,
-    get_all_posts_from_post_model,
     get_post_from_post_model_where_id,
     get_five_last_posts_from_posts_table, add_comment_in_comments_table, get_comments_from_comments_table_where_post_id,
     get_all_posts_from_post_model_on_page,
