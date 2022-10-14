@@ -14,7 +14,7 @@ class UserModel(db.Model, UserMixin):
     password = db.Column(db.String(255), nullable=False)
     role = db.Column(db.String(255), default="user")
     registration_data = db.Column(db.DateTime, default=datetime.utcnow)
-    posts = db.relationship('PostModel', backref='post_author', lazy=True)
+    posts = db.relationship("PostModel", backref="post_author", lazy=True)
 
     def __int__(self, username, password):
         self.username = username

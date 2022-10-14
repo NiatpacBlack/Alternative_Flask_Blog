@@ -1,29 +1,31 @@
 from flask import Blueprint, render_template, request, url_for, redirect, flash
 from flask_login import login_user, logout_user, login_required
+from loguru import logger
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from authentication.forms import SignUpForm, SignInForm
 from authentication.services import add_new_user_in_user_table, check_user_in_user_table
-from werkzeug.security import generate_password_hash, check_password_hash
 
 authentication = Blueprint("authentication", __name__)
 
 
 @authentication.route("/sign_in", methods=["POST", "GET"])
+@logger.catch
 def sign_in_view():
     """Представление страницы авторизации пользователя."""
 
     form = SignInForm()
 
     if form.validate_on_submit():
-        username = form.data.get('username')
-        password = form.data.get('password')
+        username = form.data.get("username")
+        password = form.data.get("password")
         user = check_user_in_user_table(username=username)
 
         if user and check_password_hash(user.password, password):
             login_user(user)
             return _redirect_to_home_or_next_page()
         else:
-            flash('Пользователь или пароль не существуют, повторите попытку.', 'danger')
+            flash("Пользователь или пароль не существуют, повторите попытку.", "danger")
 
     return render_template(
         "authentication/login_page.html",
@@ -33,6 +35,7 @@ def sign_in_view():
 
 
 @authentication.route("/sign_out")
+@logger.catch
 @login_required
 def sign_out_view():
     """Осуществляет выход пользователя из своего профиля."""
@@ -42,6 +45,7 @@ def sign_out_view():
 
 
 @authentication.route("/sign_up", methods=["POST", "GET"])
+@logger.catch
 def sign_up_view():
     """Представление страницы регистрации пользователя."""
 
@@ -67,8 +71,5 @@ def sign_up_view():
 def _redirect_to_home_or_next_page():
     """Перенаправит на страницу, переданную в аргументе next_page, либо на главную страницу."""
 
-    next_page = request.args.get('next_page')
-    return redirect(next_page or url_for('home_view'))
-
-
-
+    next_page = request.args.get("next_page")
+    return redirect(next_page or url_for("home_view"))

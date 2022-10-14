@@ -1,8 +1,9 @@
 from flask import Flask, render_template, url_for, redirect, request, flash
 from flask_login import LoginManager
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_uploads import configure_uploads
-from flask_migrate import Migrate
+from loguru import logger
 
 from blog.forms import photos
 from config import Config
@@ -12,6 +13,7 @@ login_manager = LoginManager()
 migrate = Migrate()
 
 
+@logger.catch
 def create_app():
     """Настройка приложения Flask."""
 
@@ -38,7 +40,7 @@ def create_app():
     with app.app_context():
         """Если наша база данных sqlite, выполняем миграции в пакетном режиме."""
 
-        if db.engine.url.drivername == 'sqlite':
+        if db.engine.url.drivername == "sqlite":
             migrate.init_app(app, db, render_as_batch=True)
         else:
             migrate.init_app(app, db)
@@ -50,6 +52,7 @@ app = create_app()
 
 
 @app.route("/")
+@logger.catch
 def home_view():
     """Отображение главной страницы сайта."""
 
@@ -72,8 +75,11 @@ def redirect_to_signin(response):
     """
 
     if response.status_code == 401:
-        flash('Пожалуйста войдите в свой аккаунт или зарегистрируйтесь, чтобы попасть в данный раздел.', 'success')
-        return redirect(url_for('authentication.sign_in_view', next_page=request.url))
+        flash(
+            "Пожалуйста войдите в свой аккаунт или зарегистрируйтесь, чтобы попасть в данный раздел.",
+            "success",
+        )
+        return redirect(url_for("authentication.sign_in_view", next_page=request.url))
 
     return response
 

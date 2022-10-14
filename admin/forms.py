@@ -4,6 +4,8 @@ from wtforms.validators import DataRequired, Length
 
 
 class AdminLoginForm(FlaskForm):
+    """Форма авторизации в админ-панели."""
+
     username = StringField(
         "Username",
         validators=[DataRequired(), Length(max=50)],

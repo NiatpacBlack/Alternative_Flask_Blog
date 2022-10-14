@@ -19,7 +19,7 @@ class Config(object):
     UPLOADED_PHOTOS_DEST = os.path.join(_basedir, "static/media/img")
 
     # Временная зона
-    TIMEZONE = timezone('Europe/Minsk')
+    TIMEZONE = timezone("Europe/Minsk")
 
     # Содержит адрес электронной почты администраторов для рассылок из приложения
     ADMINS = frozenset(["youremail@yourdomain.com"])

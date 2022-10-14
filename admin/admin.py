@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, url_for, redirect, flash
+from loguru import logger
 
 from .services import login_admin, check_admin_is_logged, logout_admin
 from .forms import AdminLoginForm
@@ -7,6 +8,7 @@ admin = Blueprint("admin", __name__, static_folder="static")
 
 
 @admin.route("/")
+@logger.catch
 def admin_page():
     """Отображает шаблон админ-панели, если пользователь прошел авторизацию."""
 
@@ -20,6 +22,7 @@ def admin_page():
 
 
 @admin.route("/login", methods=["POST", "GET"])
+@logger.catch
 def admin_login():
     """
     Отображает шаблон авторизации в админ панель, если пользователь еще не авторизован.
@@ -31,7 +34,10 @@ def admin_login():
         return redirect(url_for(".admin_page"))
 
     if request.method == "POST":
-        if request.form["username"] == "admin" and request.form["password"] == "12345":
+        if (
+            request.form["username"] == "admin"
+            and request.form["password"] == "admin_admin"
+        ):
             login_admin()
             return redirect(url_for(".admin_page"))
         else:
@@ -44,6 +50,7 @@ def admin_login():
 
 
 @admin.route("/logout", methods=["POST", "GET"])
+@logger.catch
 def admin_logout():
     """Удаляет запись о входе админа в админ-панель, и перемещает на страницу авторизации."""
 

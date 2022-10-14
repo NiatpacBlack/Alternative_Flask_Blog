@@ -6,7 +6,9 @@ from blog.forms import CreatePostForm, photos, CreateCommentForm
 from blog.services import (
     add_post_in_post_model,
     get_post_from_post_model_where_id,
-    get_five_last_posts_from_posts_table, add_comment_in_comments_table, get_comments_from_comments_table_where_post_id,
+    get_five_last_posts_from_posts_table,
+    add_comment_in_comments_table,
+    get_comments_from_comments_table_where_post_id,
     get_all_posts_from_post_model_on_page,
 )
 
@@ -18,7 +20,7 @@ blog = Blueprint("blog", __name__)
 def blog_view():
     """Отображение страницы блога со всеми статьями."""
 
-    page = request.args.get('page')
+    page = request.args.get("page")
     if page and page.isdigit():
         page = int(page)
     else:
@@ -58,6 +60,7 @@ def create_post_view():
 
 
 @blog.route("/post-<int:post_id>", methods=["GET", "POST"])
+@logger.catch
 def post_page_view(post_id):
     """
     Страница отображающая полную информацию из определенной статьи блога.
@@ -74,7 +77,7 @@ def post_page_view(post_id):
         comment = {
             "post_id": post_id,
             "user_id": current_user.id,
-            "text": request.form.get('text'),
+            "text": request.form.get("text"),
         }
         add_comment_in_comments_table(comment)
     return render_template(

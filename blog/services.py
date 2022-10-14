@@ -62,6 +62,8 @@ def get_comments_from_comments_table_where_post_id(post_id: int):
     выводить их username над комментарием в шаблоне.
     """
 
-    return db.session.query(UserModel, CommentModel).join(CommentModel, UserModel.id == CommentModel.user_id).filter_by(
-        post_id=post_id
-    )[::-1]
+    return (
+        db.session.query(UserModel, CommentModel)
+        .join(CommentModel, UserModel.id == CommentModel.user_id)
+        .filter_by(post_id=post_id)[::-1]
+    )
